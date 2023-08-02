@@ -25,7 +25,8 @@ const AddExpense = () => {
             className="expenseInput"
             type="text"
             onInput={(e) => {
-              dispatch(setExpenseTitle(e.target.value))
+              const target = e.target as HTMLInputElement
+              dispatch(setExpenseTitle(target.value))
             }}
           />
         </div>
@@ -35,7 +36,8 @@ const AddExpense = () => {
             className="expenseInput"
             type="number"
             onInput={(e) => {
-              dispatch(setExpenseAmount(Number(e.target.value)))
+              const target = e.target as HTMLInputElement
+              dispatch(setExpenseAmount(Number(target.value)))
             }}
           />
         </div>
