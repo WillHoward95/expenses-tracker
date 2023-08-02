@@ -5,11 +5,9 @@ import ExpenseItem from "./ExpenseItem"
 const ExpenseList = () => {
   const expensesArray = useSelector(selectExpensesArray)
 
-  return expensesArray.map(
-    (item: { title: string; amount: number }, index: number) => {
-      return <ExpenseItem item={item} key={index} />
-    },
-  )
+  return expensesArray.map((item, index: number) => {
+    return <ExpenseItem item={item} key={index} />
+  })
 }
 
 export default ExpenseList
