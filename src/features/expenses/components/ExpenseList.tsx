@@ -5,8 +5,10 @@ import ExpenseItem from "./ExpenseItem"
 const ExpenseList = () => {
   const expensesArray = useSelector(selectExpensesArray)
 
-  return expensesArray.map((item, index) => {
-    return <ExpenseItem item={item} key={index} />
+  return expensesArray.map((item) => {
+    if (item.key > 0) {
+      return <ExpenseItem item={item} />
+    }
   })
 }
 

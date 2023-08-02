@@ -2,9 +2,9 @@ import { useDispatch } from "react-redux"
 
 const ExpenseItem = (props: any) => {
   const dipatch = useDispatch()
-  const { item, key } = props
+  const { item } = props
 
-  console.log(props)
+  console.log(props.item)
 
   return (
     <div className="expenseListItem">

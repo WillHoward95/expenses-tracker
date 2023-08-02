@@ -6,6 +6,7 @@ import {
   selectExpenseAmount,
   setNewExpense,
   selectExpensesArray,
+  selectKey,
 } from "../expensesSlice"
 
 const AddExpense = () => {
@@ -13,7 +14,7 @@ const AddExpense = () => {
 
   const expenseTitle = useSelector(selectExpenseTitle)
   const expenseAmount = useSelector(selectExpenseAmount)
-  const expensesArray = useSelector(selectExpensesArray)
+  const key = useSelector(selectKey)
 
   return (
     <>
@@ -44,11 +45,15 @@ const AddExpense = () => {
       </div>
       <button
         className="addExpenseButton button"
-        onClick={(e) => {
+        onMouseDown={(e) => {
           if (expenseTitle) {
             if (expenseAmount > 0) {
               dispatch(
-                setNewExpense({ title: expenseTitle, amount: expenseAmount }),
+                setNewExpense({
+                  title: expenseTitle,
+                  amount: expenseAmount,
+                  key: key,
+                }),
               )
             }
           }

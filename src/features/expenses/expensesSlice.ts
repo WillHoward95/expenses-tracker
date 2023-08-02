@@ -9,8 +9,9 @@ export interface ExpensesState {
   budgetBoolean: boolean
   expenseTitle: string
   expenseAmount: number
-  expensesArray: object[]
+  expensesArray: [{ key: number; amount: number; title: string }]
   totalExpenses: number
+  key: number
 }
 
 const initialState: ExpensesState = {
@@ -21,14 +22,14 @@ const initialState: ExpensesState = {
   budgetBoolean: true,
   expenseTitle: "",
   expenseAmount: 0,
-  expensesArray: [],
+  expensesArray: [{ key: 0, amount: 0, title: "" }],
   totalExpenses: 0,
+  key: 1,
 }
 
 export const expensesSlice = createSlice({
   name: "expenses",
   initialState,
-  // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
     increment: (state) => {
       state.value += 1
@@ -49,8 +50,16 @@ export const expensesSlice = createSlice({
       state.expenseAmount = action.payload
     },
     setNewExpense: (state, action) => {
+      action.payload.key = state.key
       state.expensesArray.push(action.payload)
       state.totalExpenses = state.totalExpenses + action.payload.amount
+      state.key += 1
+    },
+    deleteExpense: (state, action) => {
+      const expense = state.expensesArray.find((element) => {
+        return action.payload.key === element.key
+      })
+      // PICK UP HERE
     },
   },
 })
@@ -78,5 +87,6 @@ export const selectExpensesArray = (state: RootState) =>
   state.expenses.expensesArray
 export const selectTotalExpenses = (state: RootState) =>
   state.expenses.totalExpenses
+export const selectKey = (state: RootState) => state.expenses.key
 
 export default expensesSlice.reducer
