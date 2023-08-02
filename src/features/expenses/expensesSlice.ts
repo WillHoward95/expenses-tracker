@@ -8,7 +8,7 @@ export interface ExpensesState {
   budgetBoolean: boolean
   expenseTitle: string
   expenseAmount: number
-  expensesArray: any
+  expensesArray: []
   totalExpenses: number
 }
 
