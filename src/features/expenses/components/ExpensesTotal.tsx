@@ -3,7 +3,6 @@ import { useSelector } from "react-redux"
 
 const ExpensesTotal = () => {
   const totalExpenses = useSelector(selectTotalExpenses)
-  console.log(totalExpenses)
 
   return (
     <div className="totalsItem expenseTotal">

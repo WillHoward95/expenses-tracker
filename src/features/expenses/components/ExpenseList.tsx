@@ -7,7 +7,6 @@ const ExpenseList = () => {
 
   return expensesArray.map(
     (item: { title: string; amount: number }, index: number) => {
-      console.log(item)
       return <ExpenseItem item={item} key={index} />
     },
   )
