@@ -4,6 +4,8 @@ import {
   selectBudget,
   selectBudgetBoolean,
   setBudgetBoolean,
+  setNewBudget,
+  selectNewBudget,
 } from "../expensesSlice"
 
 const BudgetTotal = () => {
@@ -11,43 +13,46 @@ const BudgetTotal = () => {
 
   const budget = useSelector(selectBudget)
   const budgetBoolean = useSelector(selectBudgetBoolean)
-
-  if (budgetBoolean) {
-    return (
-      <div className="totalsItem budgetTotal">
-        <p>
-          Budget:
-          <input
-            type="number"
-            defaultValue={budget}
-            onBlur={(e) => {
-              dispatch(setBudget(e.target.value))
-              dispatch(setBudgetBoolean())
-            }}
-          ></input>
-        </p>
-        <button
-        // onClick={(e) => {
-        //   // dispatch(setBudget(e.target.value))
-        //   dispatch(setBudgetBoolean())
-        // }}
-        >
-          Save
-        </button>
-      </div>
-    )
-  }
+  const newBudget = useSelector(selectNewBudget)
 
   return (
     <div className="totalsItem budgetTotal">
-      <p>Budget: £{budget}</p>
-      <button
-        onMouseDown={() => {
-          dispatch(setBudgetBoolean())
-        }}
-      >
-        Edit
-      </button>
+      <div className="budgetDisplay">
+        <p>Budget: </p>
+        {budgetBoolean ? (
+          <input
+            autoFocus
+            type="number"
+            defaultValue={budget}
+            onFocus={(e) => e.currentTarget.select()}
+            onInput={(e) => {
+              const target = e.target as HTMLInputElement
+              dispatch(setNewBudget(target.value))
+            }}
+          ></input>
+        ) : (
+          <p>£{budget}</p>
+        )}
+      </div>
+
+      {budgetBoolean ? (
+        <button
+          onClick={() => {
+            dispatch(setBudget(newBudget))
+            dispatch(setBudgetBoolean())
+          }}
+        >
+          Save
+        </button>
+      ) : (
+        <button
+          onClick={() => {
+            dispatch(setBudgetBoolean())
+          }}
+        >
+          Edit
+        </button>
+      )}
     </div>
   )
 }

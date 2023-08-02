@@ -23,6 +23,7 @@
 .expenseListItem {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   border: solid 1px red;
   border-radius: 4px;
   padding: 10px;
@@ -32,9 +33,11 @@
 
 .expenseListCost {
   background-color: rgb(255, 0, 0);
-  border-radius: 4px;
-  padding: 2px;
   color: white;
+  border-radius: 4px;
+  padding: 4px;
+  color: white;
+  margin: 3px;
 }
 
 .addExpenseTitle,
@@ -82,4 +85,25 @@ button {
 .remainingTotal {
   background-color: rgb(212, 237, 218);
   border: 1px solid rgb(167, 226, 181);
+}
+
+.listItemButtons {
+  display: flex;
+}
+
+.expenseListDelete,
+.expenseListEdit {
+  border: 1px solid red;
+  color: black;
+  background-color: inherit;
+}
+
+.expenseListDelete:hover,
+.expenseListEdit:hover {
+  cursor: pointer;
+  background-color: rgb(255, 225, 225);
+}
+
+.budgetDisplay {
+  display: flex;
 }

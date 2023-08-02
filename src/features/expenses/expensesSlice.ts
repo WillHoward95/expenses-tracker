@@ -5,6 +5,7 @@ export interface ExpensesState {
   value: number
   status: "idle" | "loading" | "failed"
   budget: number
+  newBudget: number
   budgetBoolean: boolean
   expenseTitle: string
   expenseAmount: number
@@ -16,7 +17,8 @@ const initialState: ExpensesState = {
   value: 0,
   status: "idle",
   budget: 0,
-  budgetBoolean: false,
+  newBudget: 0,
+  budgetBoolean: true,
   expenseTitle: "",
   expenseAmount: 0,
   expensesArray: [],
@@ -33,6 +35,9 @@ export const expensesSlice = createSlice({
     },
     setBudget: (state, action) => {
       state.budget = action.payload
+    },
+    setNewBudget: (state, action) => {
+      state.newBudget = action.payload
     },
     setBudgetBoolean: (state) => {
       state.budgetBoolean = !state.budgetBoolean
@@ -53,6 +58,7 @@ export const expensesSlice = createSlice({
 export const {
   increment,
   setBudget,
+  setNewBudget,
   setBudgetBoolean,
   setExpenseTitle,
   setExpenseAmount,
@@ -61,6 +67,7 @@ export const {
 
 export const selectCount = (state: RootState) => state.expenses.value
 export const selectBudget = (state: RootState) => state.expenses.budget
+export const selectNewBudget = (state: RootState) => state.expenses.newBudget
 export const selectBudgetBoolean = (state: RootState) =>
   state.expenses.budgetBoolean
 export const selectExpenseTitle = (state: RootState) =>
