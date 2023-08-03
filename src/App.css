@@ -14,6 +14,7 @@
 .totalsItem {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
   border-radius: 4px;
   padding: 10px;
@@ -108,13 +109,19 @@ button {
 .budgetDisplay {
   display: flex;
 }
-toast.error('🦄 Wow so easy!', {
-  position: "top-right",
-  autoClose: 5000,
-  hideProgressBar: false,
-  closeOnClick: true,
-  pauseOnHover: true,
-  draggable: true,
-  progress: undefined,
-  theme: "colored",
-  });
+
+.input {
+  max-width: 120px;
+  border: 1px solid white;
+  background-color: white;
+  border-radius: 4px;
+  padding: 0;
+  margin: 3px;
+  height: 30px;
+}
+
+.budgetInput {
+  height: initial;
+  padding: 2px;
+  margin: 0;
+}

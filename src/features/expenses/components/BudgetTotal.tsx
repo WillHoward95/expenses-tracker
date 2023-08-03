@@ -19,7 +19,7 @@ const BudgetTotal = () => {
   const newBudget = useSelector(selectNewBudget)
 
   const numberSchema = Joi.object({
-    budget: Joi.number(),
+    budget: Joi.number().greater(0),
   })
 
   const notify = (errorMessage: string) =>
@@ -35,52 +35,55 @@ const BudgetTotal = () => {
     })
 
   return (
-    <div className="totalsItem budgetTotal">
-      <div className="budgetDisplay">
-        <p>Budget: </p>
+    <div>
+      <div className="totalsItem budgetTotal">
+        <div className="budgetDisplay">
+          <p>Budget: </p>
+          {budgetBoolean ? (
+            <input
+              className="input budgetInput"
+              autoFocus
+              // type="number"
+              defaultValue={budget}
+              onFocus={(e) => e.currentTarget.select()}
+              onInput={(e) => {
+                const target = e.target as HTMLInputElement
+                dispatch(setNewBudget(target.value))
+              }}
+            ></input>
+          ) : (
+            <p>£{budget}</p>
+          )}
+        </div>
+
         {budgetBoolean ? (
-          <input
-            autoFocus
-            // type="number"
-            defaultValue={budget}
-            onFocus={(e) => e.currentTarget.select()}
-            onInput={(e) => {
-              const target = e.target as HTMLInputElement
-              dispatch(setNewBudget(target.value))
+          <button
+            onClick={() => {
+              const { error } = numberSchema.validate({
+                budget: Number(newBudget),
+              })
+              // console.log(newBudget)
+              if (error) {
+                console.log(error)
+                notify(error.toString())
+              } else {
+                dispatch(setBudget(newBudget))
+              }
+              dispatch(setBudgetBoolean())
             }}
-          ></input>
+          >
+            Save
+          </button>
         ) : (
-          <p>£{budget}</p>
+          <button
+            onClick={() => {
+              dispatch(setBudgetBoolean())
+            }}
+          >
+            Edit
+          </button>
         )}
       </div>
-
-      {budgetBoolean ? (
-        <button
-          onClick={() => {
-            const { error } = numberSchema.validate({
-              budget: Number(newBudget),
-            })
-            // console.log(newBudget)
-            if (error) {
-              console.log(error)
-              notify(error.toString())
-            } else {
-              dispatch(setBudget(newBudget))
-            }
-            dispatch(setBudgetBoolean())
-          }}
-        >
-          Save
-        </button>
-      ) : (
-        <button
-          onClick={() => {
-            dispatch(setBudgetBoolean())
-          }}
-        >
-          Edit
-        </button>
-      )}
       <ToastContainer pauseOnFocusLoss={false} />
     </div>
   )

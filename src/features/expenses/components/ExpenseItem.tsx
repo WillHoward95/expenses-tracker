@@ -9,6 +9,9 @@ import {
   selectExpenseEditAmount,
   editExpense,
 } from "../expensesSlice"
+import Joi from "joi"
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 const ExpenseItem = (props: any) => {
   const dispatch = useDispatch()
@@ -17,10 +20,27 @@ const ExpenseItem = (props: any) => {
   const expenseEditTitle = useSelector(selectExpenseEditTitle)
   const expenseEditAmount = useSelector(selectExpenseEditAmount)
 
+  const editSchema = Joi.object({
+    budget: Joi.number().greater(-1),
+  })
+
+  const notify = (errorMessage: string) =>
+    toast.error(errorMessage, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    })
+
   return (
     <div className="expenseListItem">
       {editBoolean ? (
         <input
+          className="input"
           type="text"
           placeholder={item.title}
           onInput={(e) => {
@@ -35,9 +55,9 @@ const ExpenseItem = (props: any) => {
       <div className="listItemButtons">
         {editBoolean ? (
           <input
-            type="number"
+            // type="number"
             placeholder={item.amount}
-            className="expenseListCost"
+            className="input"
             onInput={(e) => {
               const target = e.target as HTMLInputElement
               dispatch(setExpenseEditAmount(target.value))
@@ -51,16 +71,20 @@ const ExpenseItem = (props: any) => {
           <button
             className="expenseListCost expenseListEdit"
             onClick={() => {
-              if (expenseEditTitle) {
-                if (expenseEditAmount > 0) {
-                  dispatch(
-                    editExpense({
-                      title: expenseEditTitle,
-                      amount: expenseEditAmount,
-                      oldExpense: props.item,
-                    }),
-                  )
-                }
+              const { error } = editSchema.validate({
+                budget: Number(expenseEditAmount),
+              })
+              if (error) {
+                console.log(error)
+                notify(error.toString())
+              } else {
+                dispatch(
+                  editExpense({
+                    title: expenseEditTitle || item.title,
+                    amount: expenseEditAmount || item.amount,
+                    oldExpense: props.item,
+                  }),
+                )
               }
 
               dispatch(setExpenseEditBoolean())
@@ -72,6 +96,7 @@ const ExpenseItem = (props: any) => {
           <button
             className="expenseListCost expenseListEdit"
             onClick={() => {
+              console.log(expenseEditAmount)
               dispatch(setExpenseEditBoolean())
             }}
           >
