@@ -59,7 +59,7 @@ export const expensesSlice = createSlice({
       const index = state.expensesArray.findIndex((item) => {
         return action.payload.key === item.key
       })
-
+      state.totalExpenses = state.totalExpenses - action.payload.amount
       state.expensesArray.splice(index, 1)
     },
   },
