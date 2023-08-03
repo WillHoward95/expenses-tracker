@@ -29,6 +29,7 @@
   padding: 10px;
   margin: 5px 0;
   background-color: rgb(255, 200, 200);
+  flex-wrap: wrap;
 }
 
 .expenseListCost {

@@ -56,10 +56,11 @@ export const expensesSlice = createSlice({
       state.key += 1
     },
     deleteExpense: (state, action) => {
-      const expense = state.expensesArray.find((element) => {
-        return action.payload.key === element.key
+      const index = state.expensesArray.findIndex((item) => {
+        return action.payload.key === item.key
       })
-      // PICK UP HERE
+
+      state.expensesArray.splice(index, 1)
     },
   },
 })
@@ -72,6 +73,7 @@ export const {
   setExpenseTitle,
   setExpenseAmount,
   setNewExpense,
+  deleteExpense,
 } = expensesSlice.actions
 
 export const selectCount = (state: RootState) => state.expenses.value

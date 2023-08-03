@@ -7,7 +7,7 @@ const ExpenseList = () => {
 
   return expensesArray.map((item) => {
     if (item.key > 0) {
-      return <ExpenseItem item={item} />
+      return <ExpenseItem item={item} key={item.key} />
     }
   })
 }

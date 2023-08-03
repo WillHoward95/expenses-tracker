@@ -1,10 +1,9 @@
 import { useDispatch } from "react-redux"
+import { deleteExpense } from "../expensesSlice"
 
 const ExpenseItem = (props: any) => {
-  const dipatch = useDispatch()
+  const dispatch = useDispatch()
   const { item } = props
-
-  console.log(props.item)
 
   return (
     <div className="expenseListItem">
@@ -14,7 +13,9 @@ const ExpenseItem = (props: any) => {
         <button className="expenseListCost expenseListEdit">Edit</button>
         <button
           className="expenseListCost expenseListDelete"
-          onClick={(e) => {}}
+          onClick={(e) => {
+            dispatch(deleteExpense(props.item))
+          }}
         >
           X
         </button>
