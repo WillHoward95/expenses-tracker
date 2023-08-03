@@ -7,6 +7,7 @@ import {
   setNewBudget,
   selectNewBudget,
 } from "../expensesSlice"
+import Joi from "joi"
 
 const BudgetTotal = () => {
   const dispatch = useDispatch()
@@ -15,6 +16,10 @@ const BudgetTotal = () => {
   const budgetBoolean = useSelector(selectBudgetBoolean)
   const newBudget = useSelector(selectNewBudget)
 
+  const numberSchema = Joi.object({
+    budget: Joi.number(),
+  })
+
   return (
     <div className="totalsItem budgetTotal">
       <div className="budgetDisplay">
@@ -22,7 +27,7 @@ const BudgetTotal = () => {
         {budgetBoolean ? (
           <input
             autoFocus
-            type="number"
+            // type="number"
             defaultValue={budget}
             onFocus={(e) => e.currentTarget.select()}
             onInput={(e) => {
@@ -38,7 +43,15 @@ const BudgetTotal = () => {
       {budgetBoolean ? (
         <button
           onClick={() => {
-            dispatch(setBudget(newBudget))
+            const { error } = numberSchema.validate({
+              budget: Number(newBudget),
+            })
+            // console.log(newBudget)
+            if (error) {
+              console.log(error)
+            } else {
+              dispatch(setBudget(newBudget))
+            }
             dispatch(setBudgetBoolean())
           }}
         >
