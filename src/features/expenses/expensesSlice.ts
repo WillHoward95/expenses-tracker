@@ -12,6 +12,9 @@ export interface ExpensesState {
   expensesArray: [{ key: number; amount: number; title: string }]
   totalExpenses: number
   key: number
+  expenseEditBoolean: boolean
+  expenseEditTitle: string
+  expenseEditAmount: number
 }
 
 const initialState: ExpensesState = {
@@ -25,6 +28,9 @@ const initialState: ExpensesState = {
   expensesArray: [{ key: 0, amount: 0, title: "" }],
   totalExpenses: 0,
   key: 1,
+  expenseEditBoolean: false,
+  expenseEditTitle: "",
+  expenseEditAmount: 0,
 }
 
 export const expensesSlice = createSlice({
@@ -62,6 +68,32 @@ export const expensesSlice = createSlice({
       state.totalExpenses = state.totalExpenses - action.payload.amount
       state.expensesArray.splice(index, 1)
     },
+    setExpenseEditBoolean: (state) => {
+      state.expenseEditBoolean = !state.expenseEditBoolean
+    },
+    setExpenseEditTitle: (state, action) => {
+      state.expenseEditTitle = action.payload
+    },
+    setExpenseEditAmount: (state, action) => {
+      state.expenseEditAmount = action.payload
+    },
+    editExpense: (state, action) => {
+      const index = state.expensesArray.findIndex((item) => {
+        return action.payload.oldExpense.key === item.key
+      })
+
+      state.expensesArray[index].title = action.payload.title
+      state.expensesArray[index].amount = action.payload.amount
+
+      let expensesCounter = 0
+      state.expensesArray.map((item) => {
+        expensesCounter += item.amount
+      })
+
+      console.log(expensesCounter)
+
+      state.totalExpenses = expensesCounter
+    },
   },
 })
 
@@ -74,6 +106,10 @@ export const {
   setExpenseAmount,
   setNewExpense,
   deleteExpense,
+  setExpenseEditBoolean,
+  setExpenseEditTitle,
+  setExpenseEditAmount,
+  editExpense,
 } = expensesSlice.actions
 
 export const selectCount = (state: RootState) => state.expenses.value
@@ -90,5 +126,11 @@ export const selectExpensesArray = (state: RootState) =>
 export const selectTotalExpenses = (state: RootState) =>
   state.expenses.totalExpenses
 export const selectKey = (state: RootState) => state.expenses.key
+export const selectExpenseEditBoolean = (state: RootState) =>
+  state.expenses.expenseEditBoolean
+export const selectExpenseEditTitle = (state: RootState) =>
+  state.expenses.expenseEditTitle
+export const selectExpenseEditAmount = (state: RootState) =>
+  state.expenses.expenseEditAmount
 
 export default expensesSlice.reducer
