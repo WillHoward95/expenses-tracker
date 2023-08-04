@@ -10,7 +10,7 @@ import {
   editExpense,
 } from "../expensesSlice"
 import Joi from "joi"
-import { toast } from "react-toastify"
+import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import { useState } from "react"
 
@@ -79,12 +79,11 @@ const ExpenseItem = (props: any) => {
             className="expenseListCost expenseListEdit"
             onClick={() => {
               handleEdit(false)
-              if (expenseEditAmount > 0 || expenseEditTitle) {
+              if (expenseEditAmount || expenseEditTitle) {
                 const { error } = editSchema.validate({
                   budget: Number(expenseEditAmount),
                 })
                 if (error) {
-                  console.log(error)
                   notify(error.toString())
                 } else {
                   dispatch(

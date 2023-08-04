@@ -86,7 +86,6 @@ const AddExpense = () => {
           })
           // console.log(newBudget)
           if (error) {
-            console.log(error)
             notify(error.toString())
           } else if (expenseAmount > 0) {
             dispatch(
