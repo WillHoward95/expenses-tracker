@@ -47,6 +47,28 @@ const ExpenseItem = (props: any) => {
     <div className="expenseListItem">
       {singleEditBoolean ? (
         <input
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleEdit(false)
+              if (expenseEditAmount || expenseEditTitle) {
+                const { error } = editSchema.validate({
+                  budget: Number(expenseEditAmount),
+                })
+                if (error) {
+                  notify(error.toString())
+                } else {
+                  dispatch(
+                    editExpense({
+                      title: expenseEditTitle || item.title,
+                      amount: expenseEditAmount || item.amount,
+                      oldExpense: props.item,
+                    }),
+                  )
+                }
+              }
+              dispatch(setExpenseEditBoolean())
+            }
+          }}
           className="input"
           type="text"
           placeholder={item.title}
@@ -62,7 +84,28 @@ const ExpenseItem = (props: any) => {
       <div className="listItemButtons">
         {singleEditBoolean ? (
           <input
-            // type="number"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleEdit(false)
+                if (expenseEditAmount || expenseEditTitle) {
+                  const { error } = editSchema.validate({
+                    budget: Number(expenseEditAmount),
+                  })
+                  if (error) {
+                    notify(error.toString())
+                  } else {
+                    dispatch(
+                      editExpense({
+                        title: expenseEditTitle || item.title,
+                        amount: expenseEditAmount || item.amount,
+                        oldExpense: props.item,
+                      }),
+                    )
+                  }
+                }
+                dispatch(setExpenseEditBoolean())
+              }
+            }}
             placeholder={item.amount}
             className="input"
             onInput={(e) => {

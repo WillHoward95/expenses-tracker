@@ -55,6 +55,27 @@ const AddExpense = () => {
         <div className="addExpenseTitles">
           <h4>Title:</h4>
           <input
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                const { error } = inputSchema.validate({
+                  amount: expenseAmount,
+                  title: expenseTitle,
+                })
+                // console.log(newBudget)
+                if (error) {
+                  notify(error.toString())
+                } else if (expenseAmount > 0) {
+                  dispatch(
+                    setNewExpense({
+                      title: expenseTitle,
+                      amount: expenseAmount,
+                      key: key,
+                    }),
+                  )
+                }
+                onClear()
+              }
+            }}
             className="expenseInput"
             type="text"
             onInput={(e) => {
@@ -73,6 +94,27 @@ const AddExpense = () => {
             onInput={(e) => {
               const target = e.target as HTMLInputElement
               dispatch(setExpenseAmount(Number(target.value)))
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                const { error } = inputSchema.validate({
+                  amount: expenseAmount,
+                  title: expenseTitle,
+                })
+                // console.log(newBudget)
+                if (error) {
+                  notify(error.toString())
+                } else if (expenseAmount > 0) {
+                  dispatch(
+                    setNewExpense({
+                      title: expenseTitle,
+                      amount: expenseAmount,
+                      key: key,
+                    }),
+                  )
+                }
+                onClear()
+              }
             }}
           />
         </div>

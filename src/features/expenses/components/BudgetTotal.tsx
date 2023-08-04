@@ -38,9 +38,24 @@ const BudgetTotal = () => {
     <div>
       <div className="totalsItem budgetTotal">
         <div className="budgetDisplay">
-          <p>Budget: </p>
+          <p className="budgetTitle">Budget:</p>
           {budgetBoolean ? (
             <input
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  const { error } = numberSchema.validate({
+                    budget: Number(newBudget),
+                  })
+                  // console.log(newBudget)
+                  if (error) {
+                    console.log(error)
+                    notify(error.toString())
+                  } else {
+                    dispatch(setBudget(newBudget))
+                  }
+                  dispatch(setBudgetBoolean())
+                }
+              }}
               className="input budgetInput"
               autoFocus
               // type="number"
