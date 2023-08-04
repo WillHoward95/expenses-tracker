@@ -40,8 +40,12 @@ const AddExpense = () => {
   const amountRef = useRef<HTMLInputElement>(null)
 
   const onClear = () => {
-    titleRef.current.value = ""
-    amountRef.current.value = ""
+    if (titleRef.current) {
+      titleRef.current.value = ""
+    }
+    if (amountRef.current) {
+      amountRef.current.value = ""
+    }
   }
 
   return (

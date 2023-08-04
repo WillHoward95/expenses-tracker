@@ -90,8 +90,6 @@ export const expensesSlice = createSlice({
         expensesCounter += Number(item.amount)
       })
 
-      console.log(expensesCounter)
-
       state.totalExpenses = expensesCounter
 
       state.expenseEditTitle = ""

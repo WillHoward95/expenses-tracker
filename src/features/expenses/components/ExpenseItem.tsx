@@ -12,6 +12,7 @@ import {
 import Joi from "joi"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+import { useState } from "react"
 
 const ExpenseItem = (props: any) => {
   const dispatch = useDispatch()
@@ -36,9 +37,15 @@ const ExpenseItem = (props: any) => {
       theme: "colored",
     })
 
+  const [singleEditBoolean, setSingleEditBoolean] = useState(false)
+
+  const handleEdit = (value: boolean) => {
+    setSingleEditBoolean(value)
+  }
+
   return (
     <div className="expenseListItem">
-      {editBoolean ? (
+      {singleEditBoolean ? (
         <input
           className="input"
           type="text"
@@ -53,7 +60,7 @@ const ExpenseItem = (props: any) => {
       )}
 
       <div className="listItemButtons">
-        {editBoolean ? (
+        {singleEditBoolean ? (
           <input
             // type="number"
             placeholder={item.amount}
@@ -67,10 +74,11 @@ const ExpenseItem = (props: any) => {
           <span className="expenseListCost">£{item.amount}</span>
         )}
 
-        {editBoolean ? (
+        {singleEditBoolean ? (
           <button
             className="expenseListCost expenseListEdit"
             onClick={() => {
+              handleEdit(false)
               if (expenseEditAmount > 0 || expenseEditTitle) {
                 const { error } = editSchema.validate({
                   budget: Number(expenseEditAmount),
@@ -97,8 +105,8 @@ const ExpenseItem = (props: any) => {
           <button
             className="expenseListCost expenseListEdit"
             onClick={() => {
-              console.log(item)
               dispatch(setExpenseEditBoolean())
+              handleEdit(true)
             }}
           >
             Edit
