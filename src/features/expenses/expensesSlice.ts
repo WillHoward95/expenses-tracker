@@ -87,15 +87,15 @@ export const expensesSlice = createSlice({
 
       let expensesCounter = 0
       state.expensesArray.map((item) => {
-        expensesCounter += item.amount
+        expensesCounter += Number(item.amount)
       })
 
       console.log(expensesCounter)
 
       state.totalExpenses = expensesCounter
 
-      // state.expenseEditTitle = ""
-      // state.expenseEditAmount = 0
+      state.expenseEditTitle = ""
+      state.expenseEditAmount = 0
     },
   },
 })

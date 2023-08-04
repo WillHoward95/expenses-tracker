@@ -5,12 +5,12 @@ import {
   setExpenseAmount,
   selectExpenseAmount,
   setNewExpense,
-  selectExpensesArray,
   selectKey,
 } from "../expensesSlice"
 import Joi from "joi"
-import { ToastContainer, toast } from "react-toastify"
+import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+import { useRef } from "react"
 
 const AddExpense = () => {
   const dispatch = useDispatch()
@@ -36,6 +36,14 @@ const AddExpense = () => {
       theme: "colored",
     })
 
+  const titleRef = useRef<HTMLInputElement>(null)
+  const amountRef = useRef<HTMLInputElement>(null)
+
+  const onClear = () => {
+    titleRef.current.value = ""
+    amountRef.current.value = ""
+  }
+
   return (
     <>
       <h2 className="addExpenseTitle">Add an expense</h2>
@@ -49,6 +57,7 @@ const AddExpense = () => {
               const target = e.target as HTMLInputElement
               dispatch(setExpenseTitle(target.value))
             }}
+            ref={titleRef}
           />
         </div>
         <div className="addExpenseTitles">
@@ -56,6 +65,7 @@ const AddExpense = () => {
           <input
             className="expenseInput"
             // type="number"
+            ref={amountRef}
             onInput={(e) => {
               const target = e.target as HTMLInputElement
               dispatch(setExpenseAmount(Number(target.value)))
@@ -84,6 +94,7 @@ const AddExpense = () => {
             )
           }
         }}
+        onClick={onClear}
       >
         Add Expense
       </button>
